@@ -5,6 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for examples
 const Team = require('../models/team')
+const Player = require('../models/player')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -42,6 +43,7 @@ router.post('/teams', requireToken, (req, res, next) => {
         .catch(next)
 
 })
+// Update/Edit Team
 router.patch('/teams/:id', requireToken, (req, res, next) => {
     // remove owner from incoming data
     delete req.body.teams.owner
@@ -59,14 +61,36 @@ router.patch('/teams/:id', requireToken, (req, res, next) => {
 
     .catch(next)
 })
-// index teams
+// Index Team
 router.get('/teams', requireToken, (req, res, next) => {
     // store user id to var
     const userId = req.user._id
     // find all teams that owner owns
     Team.find({ owner: userId })
+    .populate('pg')
+    .populate('sg')
+    .populate('sf')
+    .populate('pf')
+    .populate('c')
+    .exec()
+
     .then(team => res.json(team))
     .catch(next)
 })
+// Delete Team
+router.delete('/teams/:id', requireToken, (req, res, next) => {
+    Team.findById(req.params.id)
+      .then(handle404)
+      .then(team => {
+        // throw an error if current user doesn't own `example`
+        requireOwnership(req, team)
+        // delete the example ONLY IF the above didn't throw
+        team.deleteOne()
+      })
+      // send back 204 and no content if the deletion succeeded
+      .then(() => res.sendStatus(204))
+      // if an error occurs, pass it to the handler
+      .catch(next)
+  })
 
 module.exports = router

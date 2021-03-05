@@ -18,30 +18,25 @@ const teamSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  pointGuard: {
+  pg: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
-      required: true
+      ref: 'Player'
   },
-  shootingGuard: {
+  sg: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
-      required: true
+      ref: 'Player'
   },
-  smallForward: {
+  sf: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
-      required: true
+      ref: 'Player'
   },
-  powerForward: {
+  pf: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
-      required: true
+      ref: 'Player'
   },
-  Center: {
+  c: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player',
-      required: true
+      ref: 'Player'
   }
 }, {
   timestamps: true
