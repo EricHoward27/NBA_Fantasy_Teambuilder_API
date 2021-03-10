@@ -38,10 +38,9 @@ router.post('/players', requireToken, (req, res, next) => {
     // then send response status and data as json
         .then(player => {
             res.status(201).json(player)
-           
-        })
-         // save player data
+               // save player data
          playerData.save()
+        })
         // catch error and send message back to client
         .catch(next)
 })
@@ -70,6 +69,26 @@ router.delete('/players/:id', requireToken, (req, res, next) => {
     // if an error occurs, pass it to the handler
     .catch(next)
 
+})
+
+router.patch('/players/:id', requireToken, (req, res, next) => {
+    const id = req.params.id
+
+    const playerData = req.body.player
+
+    Player.findById(id)
+        .then(handle404)
+        .then(player => requireOwnership(req, player))
+        // update player
+        .then(player => {
+            // update player objerct with playerdata
+            Object.assign(player, playerData)
+            // save to mongo
+            return player.save()
+        })
+        // if successful return 204
+        .then(() => res.sendStatus(204))
+        .catch(next)
 })
 
 
