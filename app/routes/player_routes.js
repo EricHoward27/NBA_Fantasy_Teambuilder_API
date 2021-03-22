@@ -39,7 +39,7 @@ router.post('/players', requireToken, (req, res, next) => {
         .then(player => {
             res.status(201).json(player)
                // save player data
-         playerData.save()
+        //  playerData.save()
         })
         // catch error and send message back to client
         .catch(next)
@@ -50,6 +50,8 @@ router.get('/players', requireToken, (req, res, next) => {
        const userId = req.user._id
        // find all players
        Player.find({ owner: userId })
+        .populate('team')
+        .exec()
       
        .then(player => res.json(player))
        .catch(next)

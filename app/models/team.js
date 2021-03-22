@@ -17,26 +17,6 @@ const teamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  },
-  pg: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player'
-  },
-  sg: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player'
-  },
-  sf: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player'
-  },
-  pf: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player'
-  },
-  c: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Player'
   }
 }, {
   timestamps: true
